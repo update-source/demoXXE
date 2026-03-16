@@ -1,4 +1,4 @@
-package com.xxe.controller;
+package com.xxe.controllers;
 
 import java.io.IOException;
 
@@ -8,11 +8,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/product/stock")
-public class ProductStock extends HttpServlet {
+@WebServlet("/product")
+public class ProductController extends HttpServlet {
+
+  
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-  }
 
+  }
 }

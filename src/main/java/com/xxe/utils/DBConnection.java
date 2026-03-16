@@ -10,7 +10,7 @@ public class DBConnection {
   
   private Connection connection;
   private String username = "root";
-  private String password;
+  private String password = "@ChangeThIsP@ssW4rd";
   private String dbms = "mysql";
   private String host = "localhost";
   private String port = "3306";
