@@ -9,7 +9,7 @@ import java.sql.SQLTimeoutException;
 public class DBConnection {
   
   private Connection connection;
-  private String username = "root";
+  private String username = "xxe";
   private String password = "@ChangeThIsP@ssW4rd";
   private String dbms = "mysql";
   private String host = "localhost";
@@ -37,6 +37,11 @@ public class DBConnection {
   }
 
   public void connect() throws SQLException, SQLTimeoutException {
+    try {
+      Class.forName("com.mysql.cj.jdbc.Driver");
+    } catch (ClassNotFoundException e) {
+      throw new SQLException("MySQL JDBC Driver not found in runtime classpath", e);
+    }
     connection = DriverManager.getConnection(getConnectionString(username, password));
     System.out.println("Connection made.");
   }
@@ -63,7 +68,26 @@ public class DBConnection {
   }
 
   public void close() throws SQLException {
-    connection.close();
+    if (connection != null) {
+      connection.close();
+    }
+  }
+
+  //Implement main for debug
+  public static void main(String[] args) {
+    DBConnection db = new DBConnection();
+    try {
+      db.connect();
+      Connection con = db.getConnection();
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    } finally {
+      try {
+        db.close();
+      } catch (SQLException e) {
+        System.err.println(e.getMessage());
+      }
+    }
   }
 }
 
