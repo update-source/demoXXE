@@ -6,6 +6,12 @@ public class Stock {
   private int productId;
   private int quantity;
 
+  public Stock(int productId, int quantity, int storeId) {
+      this.productId = productId;
+      this.quantity = quantity;
+      this.storeId = storeId;
+  }
+
   public int getStoreId() {
       return storeId;
   }

@@ -5,6 +5,11 @@ public class Store {
   private int storeId;
   private String name;
 
+  public Store(String name, int storeId) {
+      this.name = name;
+      this.storeId = storeId;
+  }
+
   public int getStoreId() {
       return storeId;
   }

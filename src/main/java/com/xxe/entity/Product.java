@@ -10,6 +10,16 @@ public class Product {
   private String imageUrl;
   private int storeId;
 
+  public Product(String description, String imageUrl, String name, double price, int productId, int stars, int storeId) {
+      this.description = description;
+      this.imageUrl = imageUrl;
+      this.name = name;
+      this.price = price;
+      this.productId = productId;
+      this.stars = stars;
+      this.storeId = storeId;
+  }
+
   public int getProductId() {
     return productId;
   }
