@@ -1,7 +1,7 @@
 package com.xxe.entity;
 
 public class Product {
-
+  //product_id, name, price, description, stars, image_url, store_id
   private int productId;
   private String name;
   private double price;
@@ -10,18 +10,29 @@ public class Product {
   private String imageUrl;
   private int storeId;
 
-  public Product(String description, String imageUrl, String name, double price, int productId, int stars, int storeId) {
-      this.description = description;
-      this.imageUrl = imageUrl;
-      this.name = name;
-      this.price = price;
-      this.productId = productId;
-      this.stars = stars;
-      this.storeId = storeId;
+  /* Constructor with full field */
+  public Product(int productId, String name, double price, String description, int stars, String imageUrl, int storeId) {
+    this.productId = productId;
+    this.name = name;
+    this.price = price;
+    this.description = description;
+    this.stars = stars;
+    this.imageUrl = imageUrl;
+    this.storeId = storeId;
+  }
+  /* Constructor with out productId */
+  public Product(String name, double price, String description, int stars, String imageUrl, int storeId) {
+    this.name = name;
+    this.price = price;
+    this.description = description;
+    this.stars = stars;
+    this.imageUrl = imageUrl;
+    this.storeId = storeId;
   }
 
+  /* Constructor with out field*/
   public Product() {}; 
-  
+
   public int getProductId() {
     return productId;
   }

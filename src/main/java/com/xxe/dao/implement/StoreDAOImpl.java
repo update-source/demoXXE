@@ -14,7 +14,7 @@ import com.xxe.utils.DBConnection;
 public class StoreDAOImpl implements StoreDAO {
 
     @Override
-    public boolean addStore(Store store) {
+    public void addStore(Store store) {
       DBConnection db = new DBConnection();
       try {
         db.connect();
@@ -23,8 +23,7 @@ public class StoreDAOImpl implements StoreDAO {
         try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)){          
           pstmt.setInt(1, store.getStoreId());
           pstmt.setString(2, store.getName());
-          int rowsAffected = pstmt.executeUpdate();
-          return rowsAffected > 0;
+          pstmt.executeUpdate();
         }
       } catch (SQLException e) {
         e.printStackTrace();
@@ -33,10 +32,8 @@ public class StoreDAOImpl implements StoreDAO {
           db.close();
         } catch (SQLException e) {
           e.printStackTrace();
-        }
-        
+        } 
       }
-      return false;
     }
 
     public static void main(String[] args) {

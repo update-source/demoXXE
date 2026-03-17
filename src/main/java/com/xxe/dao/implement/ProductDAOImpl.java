@@ -35,7 +35,7 @@ public class ProductDAOImpl implements ProductDAO {
               String productImgUrl = resultSet.getString(6);
               int storeId = resultSet.getInt(7);
 
-              list.add(new Product(productDescription, productImgUrl, productName, productPrice, productId, productStars, storeId));
+              list.add(new Product(productId, productName, productPrice, productDescription, productStars, productImgUrl, storeId));
             }
           }
         }
@@ -58,8 +58,12 @@ public class ProductDAOImpl implements ProductDAO {
       // List<Product> list = dao.getAllProducts();
       // System.out.println(list);
       /* Test getProductById */
-      Product product = dao.getProductById(1);
-      System.out.println(product);
+      // Product product = dao.getProductById(1);
+      // System.out.println(product);
+      /* Test addProduct method Then check if the new product exised in db by call getAllProducts metho */
+      // Product product = new Product("Chuột Gaming Pro", 890000.00, "Chuột không dây độ nhạy 16000 DPI", 4, "https://picsum.photos/200/300?sig=2", 1);
+      // dao.addProduct(product);
+      // System.out.println(dao.getAllProducts());
     }
     
     @Override
@@ -99,7 +103,30 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public void addProduct(Product product) {
-        throw new UnsupportedOperationException("Not supported yet.");
+      DBConnection db = new DBConnection();
+      try {
+        db.connect();
+        Connection conn = db.getConnection();
+        String sqlQuery = "INSERT INTO xxe.products (name, price, description, stars, image_url, store_id) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)){          
+          pstmt.setString(1, product.getName());
+          pstmt.setDouble(2, product.getPrice());
+          pstmt.setString(3, product.getDescription());
+          pstmt.setInt(4, product.getStars());
+          pstmt.setString(5, product.getImageUrl());
+          pstmt.setInt(6, product.getStoreId());
+
+          pstmt.executeUpdate();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      } finally {
+        try {
+          db.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
 
     @Override

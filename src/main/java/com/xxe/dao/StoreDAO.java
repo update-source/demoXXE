@@ -6,7 +6,7 @@ import com.xxe.entity.Store;
 
 public interface StoreDAO {
 
-  boolean addStore(Store store);
+  void addStore(Store store);
   List<Store> getAllStores();
   Store getStoreById(int storeId);
 }
