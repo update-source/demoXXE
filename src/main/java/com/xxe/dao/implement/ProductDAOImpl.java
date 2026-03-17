@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.xxe.dao.ProductDAO;
 import com.xxe.entity.Product;
-import com.xxe.entity.Store;
 import com.xxe.utils.DBConnection;
 
 public class ProductDAOImpl implements ProductDAO {
