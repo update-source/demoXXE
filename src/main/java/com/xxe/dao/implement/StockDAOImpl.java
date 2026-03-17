@@ -46,6 +46,9 @@ public class StockDAOImpl implements StockDAO {
         // dao.addStock(stock);
         /* Test getAllStocks method */
         //System.out.println(dao.getAllStocks());
+        /* Test getStockQuantityByStoreIdAndProductId method */
+        //System.out.println(dao.getStockQuantityByStoreIdAndProductId(1, 1));
+
     }
 
     @Override
@@ -99,7 +102,31 @@ public class StockDAOImpl implements StockDAO {
 
     @Override
     public int getStockQuantityByStoreIdAndProductId(int storeId, int productId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+      DBConnection db = new DBConnection();
+      try {
+        db.connect();
+        Connection conn = db.getConnection();
+        //store_id, product_id, quantity
+        String sqlQuery = "SELECT quantity FROM xxe.stocks WHERE store_id=? AND product_id=?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+          pstmt.setInt(1, storeId);
+          pstmt.setInt(2, productId);
+          try (ResultSet resultSet = pstmt.executeQuery()) {
+            if (resultSet.next()) { 
+              int quantity = resultSet.getInt(1);
+              return quantity;
+            }
+          }
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      } finally {
+        try {
+          db.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      return -1; // return -1 if stock doesnt exist
     }
-
 }
