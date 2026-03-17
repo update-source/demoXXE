@@ -20,11 +20,12 @@ public class StoreDAOImpl implements StoreDAO {
         db.connect();
         Connection conn = db.getConnection();
         String sqlQuery = "INSERT INTO xxe.stores (store_id, name) VALUES (?, ?)";
-        PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
-        pstmt.setInt(1, store.getStoreId());
-        pstmt.setString(2, store.getName());
-        int rowsAffected = pstmt.executeUpdate();
-        return rowsAffected > 0;
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)){          
+          pstmt.setInt(1, store.getStoreId());
+          pstmt.setString(2, store.getName());
+          int rowsAffected = pstmt.executeUpdate();
+          return rowsAffected > 0;
+        }
       } catch (SQLException e) {
         e.printStackTrace();
       } finally {
@@ -39,16 +40,19 @@ public class StoreDAOImpl implements StoreDAO {
     }
 
     public static void main(String[] args) {
-      /* Test addStore method */
       Store store = new Store(4, "HiscStore");
       StoreDAO dao = new StoreDAOImpl();
+      /* Test addStore method */
       // if (dao.addStore(store)) {
       //   System.out.println("Success!");
       // }
       /* Test getAllStores method */
       // List<Store> stores = dao.getAllStores();
       // System.out.println(stores);
-      
+      /* Test getStoreById method */
+      Store storeById = dao.getStoreById(4);
+      System.out.println(storeById);
+
     }
 
     @Override
@@ -60,13 +64,15 @@ public class StoreDAOImpl implements StoreDAO {
         db.connect();
         Connection conn = db.getConnection();
         String sqlQuery = "SELECT * FROM xxe.stores";
-        PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
-        ResultSet resultSet = pstmt.executeQuery();
-        while(resultSet.next()) {
-          int storeId = resultSet.getInt(1);
-          String storeName = resultSet.getString(2);
-          
-          list.add(new Store(storeId, storeName));
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+          try (ResultSet resultSet = pstmt.executeQuery()) {
+            while(resultSet.next()) {
+              int storeId = resultSet.getInt(1);
+              String storeName = resultSet.getString(2);
+              
+              list.add(new Store(storeId, storeName));
+            }
+          }
         }
       } catch (SQLException e) {
         e.printStackTrace();
@@ -82,7 +88,33 @@ public class StoreDAOImpl implements StoreDAO {
 
     @Override
     public Store getStoreById(int storeId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+      DBConnection db = new DBConnection();
+      try {
+        db.connect();
+        Connection conn = db.getConnection();
+        String sqlQuery = "SELECT store_id, name FROM xxe.stores WHERE store_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+          pstmt.setInt(1, storeId);
+          try (ResultSet resultSet = pstmt.executeQuery()) {
+            if (resultSet.next()) {
+              Store store = new Store();
+              store.setStoreId(resultSet.getInt(1));
+              store.setName(resultSet.getString(2));
+              return store;
+            }
+          }
+        }
+
+      } catch (SQLException e) {
+        e.printStackTrace();
+      } finally {
+        try {
+          db.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      return null;
     }
   
 }

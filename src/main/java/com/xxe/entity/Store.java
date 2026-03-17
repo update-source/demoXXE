@@ -5,6 +5,8 @@ public class Store {
   private int storeId;
   private String name;
 
+  public Store() {};
+  
   public Store(int storeId, String name) {
       this.name = name;
       this.storeId = storeId;
