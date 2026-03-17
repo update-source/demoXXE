@@ -64,6 +64,10 @@ public class ProductDAOImpl implements ProductDAO {
       // Product product = new Product("Chuột Gaming Pro", 890000.00, "Chuột không dây độ nhạy 16000 DPI", 4, "https://picsum.photos/200/300?sig=2", 1);
       // dao.addProduct(product);
       // System.out.println(dao.getAllProducts());
+      /* Test searchByName method */
+      // String keyword = "pro";
+      // List<Product> products = dao.searchByName(keyword);
+      // System.out.println(products);
     }
     
     @Override
@@ -141,7 +145,41 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public List<Product> searchByName(String keyword) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+      List<Product> list = new ArrayList<>();
+
+      DBConnection db = new DBConnection();
+      try {
+        db.connect();
+        Connection conn = db.getConnection();
+        String sqlQuery = "SELECT product_id, name, price, description, stars, image_url, store_id FROM xxe.products WHERE name LIKE ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+          pstmt.setString(1, "%" + keyword + "%");
+          try (ResultSet resultSet = pstmt.executeQuery()) {
+            while (resultSet.next()) {
+              Product product = new Product();
+              product.setProductId(resultSet.getInt(1));
+              product.setName(resultSet.getString(2));
+              product.setPrice(resultSet.getDouble(3));
+              product.setDescription(resultSet.getString(4));
+              product.setStars(resultSet.getInt(5));
+              product.setImageUrl(resultSet.getString(6));
+              product.setStoreId(resultSet.getInt(7));
+
+              list.add(product);
+            }
+          }
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      } finally {
+        try {
+          db.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      return list;
     }
 
     @Override
