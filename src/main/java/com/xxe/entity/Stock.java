@@ -12,6 +12,8 @@ public class Stock {
       this.storeId = storeId;
   }
 
+  public Stock() {};
+  
   public int getStoreId() {
       return storeId;
   }

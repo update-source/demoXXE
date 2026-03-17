@@ -2,7 +2,9 @@ package com.xxe.dao.implement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.xxe.dao.StockDAO;
@@ -42,6 +44,42 @@ public class StockDAOImpl implements StockDAO {
         StockDAO dao = new StockDAOImpl();
         // Stock stock = new Stock(2, 1000, 1);
         // dao.addStock(stock);
+        /* Test getAllStocks method */
+        //System.out.println(dao.getAllStocks());
+    }
+
+    @Override
+    public List<Stock> getAllStocks() {
+
+      List<Stock> list = new ArrayList<>();
+
+      DBConnection db = new DBConnection();
+      try {
+        db.connect();
+        Connection conn = db.getConnection();
+        String sqlQuery = "SELECT * FROM xxe.stocks";
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+          try (ResultSet resultSet = pstmt.executeQuery()) {
+            while (resultSet.next()) { 
+              Stock stock = new Stock();
+              stock.setStoreId(resultSet.getInt(1));
+              stock.setProductId(resultSet.getInt(2));
+              stock.setQuantity(resultSet.getInt(3));
+
+              list.add(stock);
+            }
+          }
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      } finally {
+        try {
+          db.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      return list;
     }
 
     @Override
