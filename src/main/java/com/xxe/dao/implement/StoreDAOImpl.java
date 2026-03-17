@@ -2,7 +2,9 @@ package com.xxe.dao.implement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.xxe.dao.StoreDAO;
@@ -38,16 +40,44 @@ public class StoreDAOImpl implements StoreDAO {
 
     public static void main(String[] args) {
       /* Test addStore method */
-      Store store = new Store("HiscStore", 4);
+      Store store = new Store(4, "HiscStore");
       StoreDAO dao = new StoreDAOImpl();
-      if (dao.addStore(store)) {
-        System.out.println("Success!");
-      }
+      // if (dao.addStore(store)) {
+      //   System.out.println("Success!");
+      // }
+      /* Test getAllStores method */
+      // List<Store> stores = dao.getAllStores();
+      // System.out.println(stores);
+      
     }
-    
+
     @Override
     public List<Store> getAllStores() {
-        throw new UnsupportedOperationException("Not supported yet.");
+      List<Store> list = new ArrayList<>();
+
+      DBConnection db = new DBConnection();
+      try {
+        db.connect();
+        Connection conn = db.getConnection();
+        String sqlQuery = "SELECT * FROM xxe.stores";
+        PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
+        ResultSet resultSet = pstmt.executeQuery();
+        while(resultSet.next()) {
+          int storeId = resultSet.getInt(1);
+          String storeName = resultSet.getString(2);
+          
+          list.add(new Store(storeId, storeName));
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      } finally {
+        try {
+          db.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      return list;
     }
 
     @Override

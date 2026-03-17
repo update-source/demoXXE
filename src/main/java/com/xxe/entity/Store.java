@@ -5,7 +5,7 @@ public class Store {
   private int storeId;
   private String name;
 
-  public Store(String name, int storeId) {
+  public Store(int storeId, String name) {
       this.name = name;
       this.storeId = storeId;
   }
