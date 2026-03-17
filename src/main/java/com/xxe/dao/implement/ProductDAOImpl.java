@@ -81,7 +81,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List<Product> getByStoreId(int storeId) {
+    public List<Product> getProductsByStoreId(int storeId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
