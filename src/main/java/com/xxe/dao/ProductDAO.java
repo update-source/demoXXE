@@ -7,7 +7,7 @@ import com.xxe.entity.Product;
 public interface ProductDAO {
   
   List<Product> getAllProducts();
-  Product getById(int productId);
+  Product getProductById(int productId);
   void addProduct(Product product);
   boolean updateProduct(Product product);
   boolean deleteProduct(int productId);

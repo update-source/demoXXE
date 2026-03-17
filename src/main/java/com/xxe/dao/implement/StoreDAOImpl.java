@@ -50,7 +50,7 @@ public class StoreDAOImpl implements StoreDAO {
       // List<Store> stores = dao.getAllStores();
       // System.out.println(stores);
       /* Test getStoreById method */
-      Store storeById = dao.getStoreById(4);
+      Store storeById = dao.getStoreById(123);
       System.out.println(storeById);
 
     }

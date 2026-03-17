@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.xxe.dao.ProductDAO;
 import com.xxe.entity.Product;
+import com.xxe.entity.Store;
 import com.xxe.utils.DBConnection;
 
 public class ProductDAOImpl implements ProductDAO {
@@ -28,7 +29,7 @@ public class ProductDAOImpl implements ProductDAO {
             while (resultSet.next()) {
               int productId = resultSet.getInt(1);
               String productName = resultSet.getString(2);
-              int productPrice = resultSet.getInt(3);
+              double productPrice = resultSet.getDouble(3);
               String productDescription = resultSet.getString(4);
               int productStars = resultSet.getInt(5);
               String productImgUrl = resultSet.getString(6);
@@ -54,13 +55,46 @@ public class ProductDAOImpl implements ProductDAO {
     public static void main(String[] args) {
       /* Test getAllProducts method */
       ProductDAO dao = new ProductDAOImpl();
-      List<Product> list = dao.getAllProducts();
-      System.out.println(list);
+      // List<Product> list = dao.getAllProducts();
+      // System.out.println(list);
+      /* Test getProductById */
+      Product product = dao.getProductById(1);
+      System.out.println(product);
     }
     
     @Override
-    public Product getById(int productId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Product getProductById(int productId) {
+      DBConnection db = new DBConnection();
+      try {
+        db.connect();
+        Connection conn = db.getConnection();
+        String sqlQuery = "SELECT product_id, name, price, description, stars, image_url, store_id FROM xxe.products WHERE product_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+          pstmt.setInt(1, productId);
+          try (ResultSet resultSet = pstmt.executeQuery()) {
+            if (resultSet.next()) {
+              Product product = new Product();
+              product.setProductId(resultSet.getInt(1));
+              product.setName(resultSet.getString(2));
+              product.setPrice(resultSet.getDouble(3));
+              product.setDescription(resultSet.getString(4));
+              product.setStars(resultSet.getInt(5));
+              product.setImageUrl(resultSet.getString(6));
+              product.setStoreId(resultSet.getInt(7));
+              return product;
+            }
+          }
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      } finally {
+        try {
+          db.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      return null;
     }
 
     @Override

@@ -20,6 +20,8 @@ public class Product {
       this.storeId = storeId;
   }
 
+  public Product() {}; 
+  
   public int getProductId() {
     return productId;
   }
