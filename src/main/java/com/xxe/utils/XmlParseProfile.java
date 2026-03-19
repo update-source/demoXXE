@@ -25,15 +25,22 @@ public enum XmlParseProfile {
       false,
       false
   ),
-  OUT_OF_BAND(
+  OOB_PARAMETER_ONLY(
       false,
       false,
       true,   // allow parameter entities for OOB lab simulation
       "all",
       false,
       true
+  ),
+  OOB_GENERAL(
+      false,
+      true,
+      true,   // allow parameter entities for OOB lab simulation
+      "all",
+      false,
+      true
   );
-
   private final boolean disallowDoctypeDecl;
   private final boolean externalGeneralEntities;
   private final boolean externalParameterEntities;

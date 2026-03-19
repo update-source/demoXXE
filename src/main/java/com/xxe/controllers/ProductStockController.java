@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 import com.xxe.dao.implement.StockDAOImpl;
 import com.xxe.services.implement.StockServiceImpl;
 import com.xxe.utils.XMLUtils;
+import com.xxe.utils.XmlParseProfile;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -41,7 +42,8 @@ public class ProductStockController extends HttpServlet {
     }
     //file:///C:/Windows/System32/drivers/etc/hosts
     try (BufferedReader reader = request.getReader()) {
-      Document doc = XMLUtils.parseXml(reader);
+      XmlParseProfile profile = XmlParseProfile.DEFAULT;
+      Document doc = XMLUtils.parseXml(reader, profile);
       int productId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "productId"));
       int storeId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "storeId"));
       int quantity = new StockServiceImpl().getStockQuantity(productId, storeId);
@@ -75,7 +77,8 @@ public class ProductStockController extends HttpServlet {
     }
 
     try (BufferedReader reader = request.getReader()) {
-      Document doc = XMLUtils.parseXml(reader);
+      XmlParseProfile profile = XmlParseProfile.OOB_GENERAL;
+      Document doc = XMLUtils.parseXml(reader, profile);
       int productId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "productId"));
       int storeId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "storeId"));
       int quantity = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "quantity"));

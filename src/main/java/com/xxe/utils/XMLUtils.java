@@ -18,10 +18,25 @@ import org.xml.sax.SAXException;
 
 public class XMLUtils {
 
+  /** 
+   * @param obj
+   * @return Document
+   * @throws SAXException
+   * @throws IOException
+   * @throws ParserConfigurationException
+   */
   public static Document parseXml(Object obj) throws SAXException, IOException, ParserConfigurationException {
     return parseXml(obj, XmlParseProfile.DEFAULT);
   }
 
+  /** 
+   * @param obj
+   * @param profile
+   * @return Document
+   * @throws SAXException
+   * @throws IOException
+   * @throws ParserConfigurationException
+   */
   public static Document parseXml(Object obj, XmlParseProfile profile)
       throws SAXException, IOException, ParserConfigurationException {
 
@@ -79,6 +94,11 @@ public class XMLUtils {
   //   return xml.substring(start);
   // }
 
+  /** 
+   * @param doc
+   * @param tagName
+   * @return String
+   */
   public static String getContentsByTagName(Document doc, String tagName) {
     NodeList nList = doc.getElementsByTagName(tagName);
 
@@ -91,6 +111,11 @@ public class XMLUtils {
     return null;
   }
 
+  /** 
+   * @param context
+   * @return int
+   * @throws NumberFormatException
+   */
   /** 
    * @param context
    * @return int
