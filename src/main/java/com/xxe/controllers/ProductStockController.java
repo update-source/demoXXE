@@ -25,7 +25,7 @@ public class ProductStockController extends HttpServlet {
       response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Content-Type must be application/xml or text/xml.");
       return;
     }
-
+    //file:///C:/Windows/System32/drivers/etc/hosts
     try (BufferedReader reader = request.getReader()) {
       Document doc = XMLUtils.parseXml(reader);
       int productId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "productId"));
@@ -37,12 +37,13 @@ public class ProductStockController extends HttpServlet {
       PrintWriter out = response.getWriter();
       out.print(quantity);
       out.flush();
+    } catch (NumberFormatException e) {
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product ID or store ID: "  + e.getMessage());
     } catch (SAXException | IllegalArgumentException e) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
     } catch (Exception e) {
       response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error.");
     }
-
   }
 
 }

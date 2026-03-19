@@ -24,15 +24,10 @@ public class ProductController extends HttpServlet {
 
       response.setContentType("text/plain;charset=UTF-8");
       response.getWriter().print(products);
-    } catch (RuntimeException e) {
-      e.printStackTrace();
-      Throwable rootCause = e;
-      while (rootCause.getCause() != null) {
-        rootCause = rootCause.getCause();
-      }
-      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-          "Database error: " + rootCause.getClass().getSimpleName() + ": " + rootCause.getMessage());
+    } catch (IOException e) {
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+    } catch (Exception e) {
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
     }
-
   }
 }
