@@ -18,26 +18,33 @@ import org.xml.sax.SAXException;
 
 public class XMLUtils {
 
-  /** 
-   * @param obj
-   * @return Document
-   * @throws SAXException
-   * @throws IOException
-   * @throws ParserConfigurationException
-   */
   public static Document parseXml(Object obj) throws SAXException, IOException, ParserConfigurationException {
+    return parseXml(obj, XmlParseProfile.DEFAULT);
+  }
+
+  public static Document parseXml(Object obj, XmlParseProfile profile)
+      throws SAXException, IOException, ParserConfigurationException {
+
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-    factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "all");
+
+    factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", profile.isDisallowDoctypeDecl());
+    factory.setFeature("http://xml.org/sax/features/external-general-entities", profile.isExternalGeneralEntities());
+    factory.setFeature("http://xml.org/sax/features/external-parameter-entities", profile.isExternalParameterEntities());
+
+    factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, profile.getAccessExternalDtd());
+    factory.setXIncludeAware(profile.isXIncludeAware());
+    factory.setExpandEntityReferences(profile.isExpandEntityReferences());
+
     DocumentBuilder parser = factory.newDocumentBuilder();
     Document doc;
-    
+
     switch (obj) {
-        case File file -> doc = parser.parse(file);
-        case InputStream inputStream -> doc = parser.parse(inputStream);
-        case Reader reader -> doc = parser.parse(new InputSource(reader));
-        case String xmlPath -> doc = parser.parse(xmlPath);
-        default -> throw new IllegalArgumentException("Unsupported XML source type: " + (obj.getClass().getName()));
+      case File file -> doc = parser.parse(file);
+      case InputStream inputStream -> doc = parser.parse(inputStream);
+      case Reader reader -> doc = parser.parse(new InputSource(reader));
+      case String xmlPath -> doc = parser.parse(xmlPath);
+      default -> throw new IllegalArgumentException("Unsupported XML source type: " + obj.getClass().getName());
     }
     return doc;
   }

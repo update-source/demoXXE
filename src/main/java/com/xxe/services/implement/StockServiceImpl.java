@@ -29,6 +29,14 @@ public class StockServiceImpl implements StockService {
     return quantity;
   }
 
+  @Override
+  public void setStockQuantity(int productId, int storeId, int quantity) {
+    if (storeId <= 0 || productId <= 0 || quantity <= 0) {
+      throw new IllegalArgumentException("storeId/productId/quantity must be > 0");
+    }
+
+
+  }
   /** 
    * @param productId
    * @param storeId

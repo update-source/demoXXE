@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.xxe.dao.implement.StockDAOImpl;
 import com.xxe.services.implement.StockServiceImpl;
 import com.xxe.utils.XMLUtils;
 
@@ -24,6 +25,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ProductStockController extends HttpServlet {
 
   /** 
+   * POST: Exploiting XXE using external entities to retrieve files. 
+   * POST: Exploiting XXE to perform SSRF attacks
    * @param request
    * @param response
    * @throws ServletException
@@ -57,7 +60,7 @@ public class ProductStockController extends HttpServlet {
     }
   }
   /** 
-   * 
+   * PUT: Blind XXE with out-of-band interaction
    * @param request
    * @param response
    * @throws ServletException
@@ -70,12 +73,14 @@ public class ProductStockController extends HttpServlet {
       response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Content-Type must be application/xml or text/xml.");
       return;
     }
-    //file:///C:/Windows/System32/drivers/etc/hosts
+
     try (BufferedReader reader = request.getReader()) {
       Document doc = XMLUtils.parseXml(reader);
       int productId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "productId"));
       int storeId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "storeId"));
-      int quantity = new StockServiceImpl().getStockQuantity(productId, storeId);
+      int quantity = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "quantity"));
+
+      new StockDAOImpl().setStockQuantity(productId, storeId, quantity);
 
       response.setContentType("text/plain");
 
@@ -83,11 +88,11 @@ public class ProductStockController extends HttpServlet {
       out.print(quantity);
       out.flush();
     } catch (NumberFormatException e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product ID or store ID: "  + e.getMessage());
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
     } catch (SAXException | IllegalArgumentException e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
     } catch (Exception e) {
-      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error.");
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error");
     }
   }
 }

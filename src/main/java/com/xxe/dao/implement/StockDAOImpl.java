@@ -54,6 +54,8 @@ public class StockDAOImpl implements StockDAO {
       //System.out.println(dao.getAllStocks());
       /* Test getStockQuantityByStoreIdAndProductId method */
       //System.out.println(dao.getStockQuantityByStoreIdAndProductId(1, 1));
+      /* Test setStockQuantity*/
+      //dao.setStockQuantity(1, 1, 2000);
 
   }
 
@@ -155,5 +157,35 @@ public class StockDAOImpl implements StockDAO {
       }
     }
     return -1; // return -1 if stock doesnt exist
+  }
+
+  /** 
+   * @param productId
+   * @param storeId
+   * @param quantity
+   */
+  @Override
+  public void setStockQuantity(int productId, int storeId, int quantity) {
+    DBConnection db = new DBConnection();
+    try {
+      db.connect();
+      Connection conn = db.getConnection();
+      String sqlQuery = "UPDATE xxe.stocks SET quantity=? WHERE store_id=? AND product_id=?";
+      try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+        pstmt.setInt(1, quantity);
+        pstmt.setInt(2, storeId);
+        pstmt.setInt(3, productId);
+
+        pstmt.executeUpdate();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        db.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
   }
 }

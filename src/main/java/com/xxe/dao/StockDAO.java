@@ -7,6 +7,7 @@ import com.xxe.entity.Stock;
 public interface StockDAO {
   
   void addStock(Stock stock);
+  void setStockQuantity(int productId, int storeId, int quantity);
   List<Stock> getAllStocks();
   List<Stock> getStocksByStoreId(int storeId);
   List<Stock> getStocksByProductId(int productId);
