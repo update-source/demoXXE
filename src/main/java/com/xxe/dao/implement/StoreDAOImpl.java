@@ -13,6 +13,9 @@ import com.xxe.utils.DBConnection;
 
 public class StoreDAOImpl implements StoreDAO {
 
+  /** 
+   * @param store
+   */
   @Override
   public void addStore(Store store) {
     DBConnection db = new DBConnection();
@@ -36,6 +39,9 @@ public class StoreDAOImpl implements StoreDAO {
     }
   }
 
+  /** 
+   * @param args
+   */
   public static void main(String[] args) {
     Store store = new Store(4, "HiscStore");
     StoreDAO dao = new StoreDAOImpl();
@@ -52,6 +58,9 @@ public class StoreDAOImpl implements StoreDAO {
 
   }
 
+  /** 
+   * @return List<Store>
+   */
   @Override
   public List<Store> getAllStores() {
     List<Store> list = new ArrayList<>();
@@ -83,6 +92,10 @@ public class StoreDAOImpl implements StoreDAO {
     return list;
   }
 
+  /** 
+   * @param storeId
+   * @return Store
+   */
   @Override
   public Store getStoreById(int storeId) {
     DBConnection db = new DBConnection();

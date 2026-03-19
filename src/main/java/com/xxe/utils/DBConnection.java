@@ -36,6 +36,10 @@ public class DBConnection {
     this.port = port;
   }
 
+  /** 
+   * @throws SQLException
+   * @throws SQLTimeoutException
+   */
   public void connect() throws SQLException, SQLTimeoutException {
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
@@ -46,6 +50,11 @@ public class DBConnection {
     System.out.println("Connection made.");
   }
 
+  /** 
+   * @param username
+   * @param password
+   * @return String
+   */
   private String getConnectionString(String username, String password) {
     StringBuilder strBuiler = new StringBuilder();
     strBuiler.append("jdbc:");
@@ -63,16 +72,25 @@ public class DBConnection {
     return strBuiler.toString();
   }
 
+  /** 
+   * @return Connection
+   */
   public Connection getConnection() {
     return connection;
   }
 
+  /** 
+   * @throws SQLException
+   */
   public void close() throws SQLException {
     if (connection != null) {
       connection.close();
     }
   }
 
+  /** 
+   * @param args
+   */
   //Implement main for debug
   public static void main(String[] args) {
     DBConnection db = new DBConnection();

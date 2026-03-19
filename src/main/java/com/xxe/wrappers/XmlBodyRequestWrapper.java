@@ -24,6 +24,9 @@ public class XmlBodyRequestWrapper extends HttpServletRequestWrapper {
     this.sanitizedBody = cleanedStr.getBytes(StandardCharsets.UTF_8);
   }
 
+  /** 
+   * @return ServletInputStream
+   */
   @Override
   public ServletInputStream getInputStream() {
     final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(sanitizedBody);
@@ -39,6 +42,9 @@ public class XmlBodyRequestWrapper extends HttpServletRequestWrapper {
     };
   }
 
+  /** 
+   * @return BufferedReader
+   */
   @Override
   public BufferedReader getReader() {
       return new BufferedReader(new InputStreamReader(this.getInputStream(), StandardCharsets.UTF_8));

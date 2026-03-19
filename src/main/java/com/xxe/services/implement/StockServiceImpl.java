@@ -6,29 +6,47 @@ import com.xxe.services.StockService;
 
 public class StockServiceImpl implements StockService {
 
-    @Override
-    public void addStock(Stock stock) {
-        throw new UnsupportedOperationException("Not supported yet.");
+  /** 
+   * @param stock
+   */
+  @Override
+  public void addStock(Stock stock) {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  /** 
+   * @param productId
+   * @param storeId
+   * @return int
+   */
+  @Override
+  public int getStockQuantity(int productId, int storeId) {
+    if (storeId <= 0 || productId <= 0) {
+      throw new IllegalArgumentException("storeId/productId must be > 0");
     }
 
-    @Override
-    public int getStockQuantity(int productId, int storeId) {
-      if (storeId <= 0 || productId <= 0) {
-        throw new IllegalArgumentException("storeId/productId must be > 0");
-      }
+    int quantity = new StockDAOImpl().getStockQuantityByStoreIdAndProductId(storeId, productId);
+    return quantity;
+  }
 
-      int quantity = new StockDAOImpl().getStockQuantityByStoreIdAndProductId(storeId, productId);
-      return quantity;
-    }
+  /** 
+   * @param productId
+   * @param storeId
+   * @param amount
+   */
+  @Override
+  public void increaseStock(int productId, int storeId, int amount) {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
-    @Override
-    public void increaseStock(int productId, int storeId, int amount) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void decreaseStock(int productId, int storeId, int amount) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+  /** 
+   * @param productId
+   * @param storeId
+   * @param amount
+   */
+  @Override
+  public void decreaseStock(int productId, int storeId, int amount) {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
   
 }

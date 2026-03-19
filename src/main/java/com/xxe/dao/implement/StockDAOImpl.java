@@ -13,6 +13,9 @@ import com.xxe.utils.DBConnection;
 
 public class StockDAOImpl implements StockDAO {
 
+  /** 
+   * @param stock
+   */
   @Override
   public void addStock(Stock stock) {
 
@@ -39,6 +42,9 @@ public class StockDAOImpl implements StockDAO {
     }
   }
 
+  /** 
+   * @param args
+   */
   public static void main(String[] args) {
       /* Test addStock method */
       StockDAO dao = new StockDAOImpl();
@@ -51,6 +57,9 @@ public class StockDAOImpl implements StockDAO {
 
   }
 
+  /** 
+   * @return List<Stock>
+   */
   @Override
   public List<Stock> getAllStocks() {
 
@@ -85,21 +94,39 @@ public class StockDAOImpl implements StockDAO {
     return list;
   }
 
+  /** 
+   * @param storeId
+   * @return List<Stock>
+   */
   @Override
   public List<Stock> getStocksByStoreId(int storeId) {
       throw new UnsupportedOperationException("Not supported yet.");
   }
 
+  /** 
+   * @param productId
+   * @return List<Stock>
+   */
   @Override
   public List<Stock> getStocksByProductId(int productId) {
       throw new UnsupportedOperationException("Not supported yet.");
   }
 
+  /** 
+   * @param storeId
+   * @param productId
+   * @return Stock
+   */
   @Override
   public Stock getStockByStoreIdAndProductId(int storeId, int productId) {
       throw new UnsupportedOperationException("Not supported yet.");
   }
 
+  /** 
+   * @param storeId
+   * @param productId
+   * @return int
+   */
   @Override
   public int getStockQuantityByStoreIdAndProductId(int storeId, int productId) {
     DBConnection db = new DBConnection();

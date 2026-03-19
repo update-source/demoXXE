@@ -18,6 +18,13 @@ import org.xml.sax.SAXException;
 
 public class XMLUtils {
 
+  /** 
+   * @param obj
+   * @return Document
+   * @throws SAXException
+   * @throws IOException
+   * @throws ParserConfigurationException
+   */
   public static Document parseXml(Object obj) throws SAXException, IOException, ParserConfigurationException {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
@@ -35,6 +42,9 @@ public class XMLUtils {
     return doc;
   }
 
+  /** 
+   * @return String
+   */
   // private static String readAll(Reader reader) throws IOException {
   //   StringBuilder sb = new StringBuilder();
   //   char[] buffer = new char[1024];
@@ -74,6 +84,11 @@ public class XMLUtils {
     return null;
   }
 
+  /** 
+   * @param context
+   * @return int
+   * @throws NumberFormatException
+   */
   public static int toInteger(String context) throws NumberFormatException {
     return Integer.parseInt(context);
   }

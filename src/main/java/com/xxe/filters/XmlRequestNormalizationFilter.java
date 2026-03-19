@@ -19,6 +19,13 @@ public class XmlRequestNormalizationFilter implements Filter {
     
   private final List<String> XML_METHODS = Arrays.asList("POST", "PUT", "PATCH");
 
+  /** 
+   * @param request
+   * @param response
+   * @param chain
+   * @throws IOException
+   * @throws ServletException
+   */
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     
