@@ -29,6 +29,11 @@ public class StockServiceImpl implements StockService {
     return quantity;
   }
 
+  /** 
+   * @param productId
+   * @param storeId
+   * @param quantity
+   */
   @Override
   public void setStockQuantity(int productId, int storeId, int quantity) {
     if (storeId <= 0 || productId <= 0 || quantity <= 0) {
@@ -56,5 +61,16 @@ public class StockServiceImpl implements StockService {
   public void decreaseStock(int productId, int storeId, int amount) {
     throw new UnsupportedOperationException("Not supported yet.");
   }
-  
+
+  /** 
+   * @param productId
+   * @param storeId
+   */
+  @Override
+  public void deleteStock(int productId, int storeId) {
+    if (productId <= 0 || storeId <= 0) {
+      throw new IllegalArgumentException("storeId/productId must be > 0");
+    }
+    new StockDAOImpl().deleteStock(productId, storeId);
+  }
 }

@@ -56,6 +56,8 @@ public class StockDAOImpl implements StockDAO {
       //System.out.println(dao.getStockQuantityByStoreIdAndProductId(1, 1));
       /* Test setStockQuantity*/
       //dao.setStockQuantity(1, 1, 2000);
+      /* Test deleteStock method */ 
+      //dao.deleteStock(1, 1);
 
   }
 
@@ -188,4 +190,33 @@ public class StockDAOImpl implements StockDAO {
       }
     }
   }
+
+  /** 
+   * @param productId
+   * @param storeId
+   */
+  @Override
+  public void deleteStock(int productId, int storeId) {
+    DBConnection db = new DBConnection();
+    try {
+      db.connect();
+      Connection conn = db.getConnection();
+      String sqlQuery = "DELETE FROM xxe.stocks WHERE store_id=? AND product_id=?";
+      try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+        pstmt.setInt(1, storeId);
+        pstmt.setInt(2, productId);
+
+        pstmt.executeUpdate();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        db.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+  
 }

@@ -13,4 +13,5 @@ public interface StockDAO {
   List<Stock> getStocksByProductId(int productId);
   Stock getStockByStoreIdAndProductId(int storeId, int productId);
   int getStockQuantityByStoreIdAndProductId(int storeId, int productId);
+  void deleteStock(int productId, int storeId);
 } 

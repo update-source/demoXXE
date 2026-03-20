@@ -8,4 +8,5 @@ public interface StockService {
   void setStockQuantity(int productId, int storeId, int quantity);
   void increaseStock(int productId, int storeId, int amount);
   void decreaseStock(int productId, int storeId, int amount);
+  void deleteStock(int productId, int storeId);
 }

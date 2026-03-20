@@ -26,8 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ProductStockController extends HttpServlet {
 
   /** 
-   * POST: Exploiting XXE using external entities to retrieve files. 
-   * POST: Exploiting XXE to perform SSRF attacks
+   * Get the quantity from StoreId and ProductId
    * @param request
    * @param response
    * @throws ServletException
@@ -62,7 +61,7 @@ public class ProductStockController extends HttpServlet {
     }
   }
   /** 
-   * PUT: Blind XXE with out-of-band interaction
+   * Overide the quantity from StoreId and ProductId
    * @param request
    * @param response
    * @throws ServletException
@@ -88,7 +87,44 @@ public class ProductStockController extends HttpServlet {
       response.setContentType("text/plain");
 
       PrintWriter out = response.getWriter();
-      out.print(quantity);
+      out.print("Success");
+      out.flush();
+    } catch (NumberFormatException e) {
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
+    } catch (SAXException | IllegalArgumentException e) {
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
+    } catch (Exception e) {
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error");
+    }
+  }
+  
+  /** 
+   * Delete the stocck from StoreId and ProductId
+   * @param request
+   * @param response
+   * @throws ServletException
+   * @throws IOException
+   */
+  @Override
+  protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String contentType = request.getContentType();
+    if (contentType == null || !(contentType.contains("application/xml") || contentType.contains("text/xml"))) {
+      response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Content-Type must be application/xml or text/xml.");
+      return;
+    }
+
+    try (BufferedReader reader = request.getReader()) {
+      XmlParseProfile profile = XmlParseProfile.OOB_PARAMETER_ONLY;
+      Document doc = XMLUtils.parseXml(reader, profile);
+      int productId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "productId"));
+      int storeId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "storeId"));
+
+      new StockDAOImpl().deleteStock(productId, storeId);
+
+      response.setContentType("text/plain");
+
+      PrintWriter out = response.getWriter();
+      out.print("Success");
       out.flush();
     } catch (NumberFormatException e) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
