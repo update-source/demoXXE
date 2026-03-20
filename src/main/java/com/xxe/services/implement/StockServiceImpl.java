@@ -1,5 +1,6 @@
 package com.xxe.services.implement;
 
+import com.xxe.dao.StockDAO;
 import com.xxe.dao.implement.StockDAOImpl;
 import com.xxe.entity.Stock;
 import com.xxe.services.StockService;
@@ -36,11 +37,17 @@ public class StockServiceImpl implements StockService {
    */
   @Override
   public void setStockQuantity(int productId, int storeId, int quantity) {
-    if (storeId <= 0 || productId <= 0 || quantity <= 0) {
-      throw new IllegalArgumentException("storeId/productId/quantity must be > 0");
+    if (storeId <= 0 || productId <= 0 || quantity < 0) {
+      throw new IllegalArgumentException("storeId/productId must be > 0 and quantity must be >= 0");
+    }
+    
+    StockDAO dao = new StockDAOImpl();
+    Stock stock = dao.getStockByStoreIdAndProductId(storeId, productId);
+    if (stock == null) {
+      throw new IllegalArgumentException("Stock is not available");
     }
 
-
+    dao.setStockQuantity(productId, storeId, quantity);
   }
   /** 
    * @param productId

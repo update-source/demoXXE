@@ -76,13 +76,13 @@ public class ProductStockController extends HttpServlet {
     }
 
     try (BufferedReader reader = request.getReader()) {
-      XmlParseProfile profile = XmlParseProfile.OOB_GENERAL;
+      XmlParseProfile profile = XmlParseProfile.OOB_PARAMETER_ONLY;
       Document doc = XMLUtils.parseXml(reader, profile);
       int productId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "productId"));
       int storeId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "storeId"));
       int quantity = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "quantity"));
 
-      new StockDAOImpl().setStockQuantity(productId, storeId, quantity);
+      new StockServiceImpl().setStockQuantity(productId, storeId, quantity);
 
       response.setContentType("text/plain");
 
@@ -114,7 +114,7 @@ public class ProductStockController extends HttpServlet {
     }
 
     try (BufferedReader reader = request.getReader()) {
-      XmlParseProfile profile = XmlParseProfile.OOB_PARAMETER_ONLY;
+      XmlParseProfile profile = XmlParseProfile.OOB_GENERAL;
       Document doc = XMLUtils.parseXml(reader, profile);
       int productId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "productId"));
       int storeId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "storeId"));

@@ -1,12 +1,11 @@
 package com.xxe.entity;
 
 public class Stock {
-
-  private int storeId;
   private int productId;
+  private int storeId;
   private int quantity;
 
-  public Stock(int productId, int quantity, int storeId) {
+  public Stock(int productId, int storeId, int quantity) {
     this.productId = productId;
     this.quantity = quantity;
     this.storeId = storeId;
