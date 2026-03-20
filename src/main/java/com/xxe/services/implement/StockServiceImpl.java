@@ -78,6 +78,13 @@ public class StockServiceImpl implements StockService {
     if (productId <= 0 || storeId <= 0) {
       throw new IllegalArgumentException("storeId/productId must be > 0");
     }
+
+    StockDAO dao = new StockDAOImpl();
+    Stock stock = dao.getStockByStoreIdAndProductId(storeId, productId);
+    if (stock == null) {
+      throw new IllegalArgumentException("Stock is not available");
+    }
+    
     new StockDAOImpl().deleteStock(productId, storeId);
   }
 }

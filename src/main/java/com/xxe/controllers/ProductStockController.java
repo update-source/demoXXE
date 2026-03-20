@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.xxe.dao.implement.StockDAOImpl;
 import com.xxe.services.implement.StockServiceImpl;
 import com.xxe.utils.XMLUtils;
 import com.xxe.utils.XmlParseProfile;
@@ -119,7 +118,7 @@ public class ProductStockController extends HttpServlet {
       int productId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "productId"));
       int storeId = XMLUtils.toInteger(XMLUtils.getContentsByTagName(doc, "storeId"));
 
-      new StockDAOImpl().deleteStock(productId, storeId);
+      new StockServiceImpl().deleteStock(productId, storeId);
 
       response.setContentType("text/plain");
 
