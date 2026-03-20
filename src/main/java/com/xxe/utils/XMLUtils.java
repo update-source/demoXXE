@@ -49,6 +49,7 @@ public class XMLUtils {
 
     factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, profile.getAccessExternalDtd());
     factory.setXIncludeAware(profile.isXIncludeAware());
+    factory.setNamespaceAware(profile.isSetNamespaceAware());
     factory.setExpandEntityReferences(profile.isExpandEntityReferences());
 
     DocumentBuilder parser = factory.newDocumentBuilder();

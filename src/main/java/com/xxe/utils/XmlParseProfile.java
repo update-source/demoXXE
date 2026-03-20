@@ -6,7 +6,8 @@ public enum XmlParseProfile {
       true,
       true,
       "all",
-      false,
+      true,
+      true,
       true
   ),
   BLOCK_GENERAL_ENTITY(
@@ -14,6 +15,7 @@ public enum XmlParseProfile {
       false,
       true,
       "all",
+      false,
       false,
       true
   ),
@@ -23,21 +25,24 @@ public enum XmlParseProfile {
       false,
       "",
       false,
+      false,
       false
   ),
   OOB_PARAMETER_ONLY(
       false,
       false,
-      true,   // allow parameter entities for OOB lab simulation
+      true,
       "all",
+      false,
       false,
       true
   ),
   OOB_GENERAL(
       false,
       true,
-      true,   // allow parameter entities for OOB lab simulation
+      true, 
       "all",
+      false,
       false,
       true
   );
@@ -46,6 +51,7 @@ public enum XmlParseProfile {
   private final boolean externalParameterEntities;
   private final String accessExternalDtd;
   private final boolean xIncludeAware;
+  private final boolean setNamespaceAware;
   private final boolean expandEntityReferences;
 
   XmlParseProfile(
@@ -54,6 +60,7 @@ public enum XmlParseProfile {
       boolean externalParameterEntities,
       String accessExternalDtd,
       boolean xIncludeAware,
+      boolean setNamespaceAware,
       boolean expandEntityReferences
   ) {
     this.disallowDoctypeDecl = disallowDoctypeDecl;
@@ -61,6 +68,7 @@ public enum XmlParseProfile {
     this.externalParameterEntities = externalParameterEntities;
     this.accessExternalDtd = accessExternalDtd;
     this.xIncludeAware = xIncludeAware;
+    this.setNamespaceAware = setNamespaceAware;
     this.expandEntityReferences = expandEntityReferences;
   }
 
@@ -84,6 +92,9 @@ public enum XmlParseProfile {
     return xIncludeAware;
   }
 
+  public boolean isSetNamespaceAware() {
+    return setNamespaceAware;
+  }
   public boolean isExpandEntityReferences() {
     return expandEntityReferences;
   }

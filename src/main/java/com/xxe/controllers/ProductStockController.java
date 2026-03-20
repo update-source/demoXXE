@@ -52,11 +52,11 @@ public class ProductStockController extends HttpServlet {
       out.print(quantity);
       out.flush();
     } catch (NumberFormatException e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product ID or store ID: "  + e.getMessage());
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product ID or store ID: "  + e.getMessage()); //Rxternal entities to retrieve files and SSRF attacks
     } catch (SAXException | IllegalArgumentException e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getClass().getName() + ":" +  e.getMessage());
     } catch (Exception e) {
-      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error.");
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getClass().getName() + ":" +  e.getMessage());
     }
   }
   /** 
@@ -91,9 +91,9 @@ public class ProductStockController extends HttpServlet {
     } catch (NumberFormatException e) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
     } catch (SAXException | IllegalArgumentException e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error"); // XML parameter entities And Exfiltrate data out-of-band 
     } catch (Exception e) {
-      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error");
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getClass().getName() + ":" +  e.getMessage()); //Retrieve data via error messages
     }
   }
   
@@ -126,7 +126,7 @@ public class ProductStockController extends HttpServlet {
       out.print("Success");
       out.flush();
     } catch (NumberFormatException e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error"); //out-of-band interaction
     } catch (SAXException | IllegalArgumentException e) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
     } catch (Exception e) {
